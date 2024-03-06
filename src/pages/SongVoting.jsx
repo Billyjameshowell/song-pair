@@ -19,6 +19,7 @@ const SongVotingPage = () => {
         <div key={song.id} className='flex items-center justify-between bg-gray-100 p-4 mb-4 rounded-lg'>
           <div>{song.title}</div>
           <div>{song.artist}</div>
+          <div>Current ELO: {song.eloRating}</div>
           <img src={song.albumArt} alt={song.title} className='w-32 h-32'/>
           <button
             onClick={() => voteForSong(song.id)}

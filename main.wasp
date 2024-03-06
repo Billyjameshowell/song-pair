@@ -2,14 +2,12 @@ app song_pair {
   wasp: {
     version: "^0.12.3"
   },
-  title: "song_pair",
+  title: "Song Pair",
   client: {
     rootComponent: import { Layout } from "@src/Layout.jsx",
   },
   db: {
-    prisma: {
-      clientPreviewFeatures: ["extendedWhereUnique"]
-    }
+   system: PostgreSQL,
   },
   auth: {
     userEntity: User,
@@ -74,7 +72,6 @@ page SongVotingPage {
 route LeaderboardRoute { path: "/leaderboard", to: LeaderboardPage }
 page LeaderboardPage {
   component: import LeaderboardPage from "@src/pages/Leaderboard.jsx",
-  authRequired: true
 }
 
 route AdminDashboardRoute { path: "/admin", to: AdminDashboardPage }
