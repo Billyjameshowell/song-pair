@@ -3,22 +3,29 @@ import { HttpError } from 'wasp/server'
 export const getTwoSongs = async (args, context) => {
   if (!context.user) { throw new HttpError(401) }
 
-  const totalSongs = await context.entities.Song.count()
+  // Fetch all songs that the logged-in user added
+  const userSongs = await context.entities.Song.findMany({
+    where: { userId: context.user.id }
+  });
 
-  if (totalSongs < 2) { throw new HttpError(422, 'Not enough songs in the database.') }
+  const totalUserSongs = userSongs.length;
 
-  const song1Id = Math.floor(Math.random() * totalSongs) + 1;
-  let song2Id;
+  if (totalUserSongs < 2) { throw new HttpError(422, 'Not enough songs added by the user.') }
 
+  // Generate two unique random indices for user's songs
+  let index1 = Math.floor(Math.random() * totalUserSongs);
+  let index2;
   do {
-    song2Id = Math.floor(Math.random() * totalSongs) + 1;
-  } while (song1Id === song2Id);
+    index2 = Math.floor(Math.random() * totalUserSongs);
+  } while (index1 === index2);
 
-  const song1 = await context.entities.Song.findUnique({ where: { id: song1Id } });
-  const song2 = await context.entities.Song.findUnique({ where: { id: song2Id } });
+  // Get the two unique songs using the indices
+  const song1 = userSongs[index1];
+  const song2 = userSongs[index2];
 
   return [song1, song2];
 }
+
 
 export const getTopSongs = async (args, context) => {
   const topSongs = await context.entities.Song.findMany({
