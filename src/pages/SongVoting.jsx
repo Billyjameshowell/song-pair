@@ -14,13 +14,15 @@ const SongVotingPage = () => {
   };
 
   return (
-    <div className='p-4'>
+    // Use 'md:flex' to make the container a flexbox on medium screens and larger
+    <div className='p-4 md:flex md:justify-center md:space-x-8'>
       {songs.map((song, index) => (
-        <div key={song.id} className='flex items-center justify-between bg-gray-100 p-4 mb-4 rounded-lg'>
-          <div>{song.title}</div>
-          <div>{song.artist}</div>
-          <div>Current ELO: {song.eloRating}</div>
-          <img src={song.albumArt} alt={song.title} className='w-32 h-32'/>
+        // Cards take full width on mobile, half width on desktop
+        <div key={song.id} className='bg-gray-100 p-4 mb-4 md:mb-0 md:w-1/2 rounded-lg flex flex-col items-center'>
+          <div className='mb-2 text-lg font-bold'>{song.title}</div>
+          <div className='mb-2 text-gray-600'>{song.artist}</div>
+          <div className='mb-4 text-gray-600'>Current ELO: {song.eloRating}</div>
+          <img src={song.albumArt} alt={song.title} className='w-32 h-32 mb-4'/>
           <button
             onClick={() => voteForSong(song.id)}
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
