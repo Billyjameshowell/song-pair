@@ -5,8 +5,8 @@ const SongVotingPage = () => {
   const { data: songs, isLoading, error } = useQuery(getTwoSongs);
   const updateSongRatingFn = useAction(updateSongRating);
 
-  if (isLoading) return 'Loading...';
-  if (error) return 'Error: ' + error;
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   const voteForSong = (preferredSongId) => {
     const [song1, song2] = songs;
@@ -14,25 +14,29 @@ const SongVotingPage = () => {
   };
 
   return (
-    // Use 'md:flex' to make the container a flexbox on medium screens and larger
-    <div className='p-4 md:flex md:justify-center md:space-x-8'>
+    <div className='p-4 flex flex-wrap justify-center gap-8'>
       {songs.map((song, index) => (
-        // Cards take full width on mobile, half width on desktop
-        <div key={song.id} className='bg-gray-100 p-4 mb-4 md:mb-0 md:w-1/2 rounded-lg flex flex-col items-center'>
-          <div className='mb-2 text-lg font-bold'>{song.title}</div>
-          <div className='mb-2 text-gray-600'>{song.artist}</div>
-          <div className='mb-4 text-gray-600'>Current ELO: {song.eloRating}</div>
-          <img src={song.albumArt} alt={song.title} className='w-32 h-32 mb-4'/>
-          <button
-            onClick={() => voteForSong(song.id)}
-            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-          >
-            Pick this song
-          </button>
+        <div key={song.id} className='card w-96 bg-card-bg shadow-xl'>
+          <figure className='px-10 pt-10'>
+            <img src={song.albumArt} alt={song.title} className='rounded-xl h-48 object-cover' />
+          </figure>
+          <div className='card-body items-center text-center'>
+            <h2 className='card-title'>{song.title}</h2>
+            <p>{song.artist}</p>
+            <div className='text-gray-600 mb-4'>Current ELO: {song.eloRating}</div>
+            <div className='card-actions'>
+              <button
+                onClick={() => voteForSong(song.id)}
+                className='btn btn-primary'
+              >
+                Pick this song
+              </button>
+            </div>
+          </div>
         </div>
       ))}
     </div>
   );
-}
+};
 
 export default SongVotingPage;
