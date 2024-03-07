@@ -3,6 +3,7 @@ const colors = require('tailwindcss/colors')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  plugins: [require("daisyui")],
   content: [
     resolveProjectPath('./src/**/*.{js,jsx,ts,tsx}'),
   ],

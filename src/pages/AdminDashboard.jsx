@@ -49,70 +49,82 @@ const AdminDashboardPage = () => {
   if (songsLoading) return <div>Loading songs...</div>;
 
   return (
-    <div className='p-4'>
+    <div className='p-4 space-y-8'>
       <div>
-        <h2>Add New Song</h2>
-        <input
-          type='text'
-          placeholder='Song title'
-          className='px-2 py-2 border rounded text-lg mb-4'
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <input
-          type='text'
-          placeholder='Artist name'
-          className='px-2 py-2 border rounded text-lg mb-4'
-          value={artist}
-          onChange={(e) => setArtist(e.target.value)}
-        />
-        <input
-          type='text'
-          placeholder='Album Art URL'
-          className='px-2 py-2 border rounded text-lg mb-4'
-          value={albumArt}
-          onChange={(e) => setAlbumArt(e.target.value)}
-        />
+        <h2 className='text-2xl font-bold mb-4'>Add New Song</h2>
+        <div className='form-control'>
+          <label className='label'>
+            <span className='label-text'>Song title</span>
+          </label>
+          <input
+            type='text'
+            placeholder='Song title'
+            className='input input-bordered w-full mb-4'
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className='form-control'>
+          <label className='label'>
+            <span className='label-text'>Artist name</span>
+          </label>
+          <input
+            type='text'
+            placeholder='Artist name'
+            className='input input-bordered w-full mb-4'
+            value={artist}
+            onChange={(e) => setArtist(e.target.value)}
+          />
+        </div>
+        <div className='form-control'>
+          <label className='label'>
+            <span className='label-text'>Album Art URL</span>
+          </label>
+          <input
+            type='text'
+            placeholder='Album Art URL'
+            className='input input-bordered w-full mb-4'
+            value={albumArt}
+            onChange={(e) => setAlbumArt(e.target.value)}
+          />
+        </div>
         <button
           onClick={handleAddSong}
-          className='bg-blue-500 hover:bg-blue-700 px-2 py-2 text-white font-bold rounded'
+          className='btn btn-primary'
         >
           Add Song
         </button>
       </div>
+
       <div>
-        <h2>Manage Songs</h2>
-        {songs && (
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Artist</th>
-                <th>Album Art</th>
-                <th>Select</th>
-              </tr>
-            </thead>
-            <tbody>
-              {songs.map((song) => (
-                <tr key={song.id}>
-                  <td>{song.title}</td>
-                  <td>{song.artist}</td>
-                  <td><img src={song.albumArt} alt="Album Art" style={{ width: '50px', height: '50px' }} /></td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={selectedSongIds.includes(song.id)}
-                      onChange={() => handleSongSelectionChange(song.id)}
+        <h2 className='text-2xl font-bold mb-4'>Manage Songs</h2>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+          {songs?.map((song) => (
+            <div key={song.id} className='card bg-base-100 shadow-xl'>
+              <figure className='px-10 pt-10'>
+                <img src={song.albumArt} alt="Album Art" className='rounded-xl' />
+              </figure>
+              <div className='card-body items-center text-center'>
+                <h2 className='card-title'>{song.title}</h2>
+                <p>{song.artist}</p>
+                <div className='card-actions'>
+                  <label className='cursor-pointer label'>
+                    <span className='label-text'>Select Song</span> 
+                    <input 
+                      type='checkbox' 
+                      className='checkbox checkbox-primary' 
+                      checked={selectedSongIds.includes(song.id)} 
+                      onChange={() => handleSongSelectionChange(song.id)} 
                     />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+                  </label>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
         <button
           onClick={saveSelections}
-          className='mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'
+          className='btn btn-primary mt-4'
         >
           Save Selections
         </button>
