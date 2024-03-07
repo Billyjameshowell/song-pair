@@ -42,3 +42,75 @@ function calculateElo(rating1, rating2, isPlayer1Winner) {
 
   return [Math.round(newRating1), Math.round(newRating2)];
 }
+
+// @src/actions.js
+
+export const saveUserSongSelections = async ({ selectedSongIds }, context) => {
+  if (!context.user) throw new HttpError(401, "User not authenticated");
+
+  try {
+    // First, find the current user to disconnect all existing selected songs
+    const currentUser = await context.entities.User.findUnique({ where: { id: context.user.id } });
+    if (!currentUser) throw new HttpError(404, "User not found");
+
+    // Ensure selectedSongs is an array before proceeding
+    currentUser.selectedSongs = currentUser.selectedSongs || [];
+
+    // Disconnect existing selected songs
+    await Promise.all(currentUser.selectedSongs.map(async (song) => {
+      await context.entities.User.update({
+        where: { id: context.user.id },
+        data: {
+          selectedSongs: { disconnect: { id: song.id } }
+        }
+      });
+    }));
+
+    // Connect the new selections
+    await Promise.all(selectedSongIds.map(async (songId) => {
+      await context.entities.User.update({
+        where: { id: context.user.id },
+        data: {
+          selectedSongs: { connect: { id: songId } }
+        }
+      });
+    }));
+
+    return { success: true };
+  } catch (error) {
+    throw new HttpError(500, `Failed to save song selections: ${error.message}`);
+  }
+};
+
+
+
+export const selectSong = async ({ songId }, context) => {
+  if (!context.user) throw new HttpError(401, "User not authenticated");
+
+  try {
+    const existingSelection = await context.prisma.user.findUnique({
+      where: { id: context.user.id },
+      include: { selectedSongs: true }
+    });
+
+    const isSongSelected = existingSelection.selectedSongs.some(song => song.id === songId);
+
+    if (isSongSelected) {
+      // If the song is already selected, remove it
+      await context.prisma.user.update({
+        where: { id: context.user.id },
+        data: { selectedSongs: { disconnect: { id: songId } } }
+      });
+    } else {
+      // If the song is not selected, add it
+      await context.prisma.user.update({
+        where: { id: context.user.id },
+        data: { selectedSongs: { connect: { id: songId } } }
+      });
+    }
+
+    return { success: true };
+  } catch (error) {
+    throw new HttpError(500, `Failed to toggle song selection: ${error.message}`);
+  }
+};

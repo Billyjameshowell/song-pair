@@ -29,19 +29,25 @@ page SignupPage {
 }
 
 entity User {=psl
-    id    Int    @id @default(autoincrement())
-    songs Song[]
+  id            Int       @id @default(autoincrement())
+  // Define other fields...
+  songs    Song[]    // Assuming this represents songs added by the user
+  selectedSongs Song[]    @relation("UserSelectedSongs")
 psl=}
 
 entity Song {=psl
-    id        Int    @id @default(autoincrement())
-    title     String
-    artist    String
-    albumArt  String
-    eloRating Int    @default(1500)
-    userId    Int
-    user      User   @relation(fields: [userId], references: [id])
+  id          Int      @id @default(autoincrement())
+  title       String
+  artist      String
+  albumArt    String
+  eloRating   Int      @default(1500)
+  userId      Int     // Make sure this is defined if tracking the user who added the song
+  user        User    @relation(fields: [userId], references: [id]) // Adjusted for optional linkage
+  selectedBy  User[]   @relation("UserSelectedSongs")
 psl=}
+
+
+
 
 action addSong {
   fn: import { addSong } from "@src/actions.js",
@@ -52,6 +58,22 @@ action updateSongRating {
   fn: import { updateSongRating } from "@src/actions.js",
   entities: [Song]
 }
+
+action saveUserSongSelections {
+  fn: import { saveUserSongSelections } from "@src/actions.js",
+  entities: [User, Song]
+}
+
+action selectSong {
+  fn: import { selectSong } from "@src/actions.js",
+  entities: [User, Song]
+}
+
+query getAllSongs {
+  fn: import { getAllSongs } from "@src/queries.js",
+  entities: [Song]
+}
+
 
 query getTwoSongs {
   fn: import { getTwoSongs } from "@src/queries.js",

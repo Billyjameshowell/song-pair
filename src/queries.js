@@ -34,3 +34,12 @@ export const getTopSongs = async (args, context) => {
   })
   return topSongs;
 }
+
+export const getAllSongs = async (args, context) => {
+  return await context.entities.Song.findMany({
+    orderBy: {
+      title: 'asc', // Sorts the songs by title in ascending order
+    }
+  });
+}
+
