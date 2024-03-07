@@ -1,9 +1,8 @@
-const { resolveProjectPath } = require('wasp/dev')
-const colors = require('tailwindcss/colors')
+const { resolveProjectPath } = require('wasp/dev');
+const colors = require('tailwindcss/colors');
 
-/** @type {import('tailwindcss').Config} */
 module.exports = {
-  plugins: [require("daisyui")],
+  plugins: [require('daisyui')],
   content: [
     resolveProjectPath('./src/**/*.{js,jsx,ts,tsx}'),
   ],
@@ -11,7 +10,7 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50:  colors.slate[50],
+          50: colors.slate[50],
           100: colors.slate[100],
           200: colors.slate[200],
           300: colors.slate[300],
@@ -21,8 +20,10 @@ module.exports = {
           700: colors.slate[700],
           800: colors.slate[800],
           900: colors.slate[900],
-        }
-      }
+        },
+        'card-bg': colors.slate[800], // Custom color for the card background
+      },
     },
   },
+  // Note that we're not using the daisyui themes object here
 }

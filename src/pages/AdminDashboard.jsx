@@ -100,7 +100,7 @@ const AdminDashboardPage = () => {
         <h2 className='text-2xl font-bold mb-4'>Manage Songs</h2>
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
           {songs?.map((song) => (
-            <div key={song.id} className='card bg-base-100 shadow-xl'>
+            <div key={song.id} className='card bg-card-bg shadow-xl'>
               <figure className='px-10 pt-10'>
                 <img src={song.albumArt} alt="Album Art" className='rounded-xl' />
               </figure>
