@@ -26,6 +26,9 @@ export const Layout = ({ children }) => {
             <Link to="/leaderboard" className="hover:text-gray-200">
               <h2 className="text-xl font-medium underline decoration-transparent hover:decoration-current">Leaderboard</h2>
             </Link>
+            <Link to="/admin" className="hover:text-gray-200">
+              <h2 className="text-xl font-medium underline decoration-transparent hover:decoration-current">Add Songs</h2>
+            </Link>
             { user ? (
               <span className="flex items-center gap-2">
                 Hi, {getUsername(user)}!{' '}
