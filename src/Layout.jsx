@@ -26,7 +26,7 @@ export const Layout = ({ children }) => {
             <Link to="/leaderboard" className="hover:text-gray-200">
               <h2 className="text-xl font-medium underline decoration-transparent hover:decoration-current">Leaderboard</h2>
             </Link>
-            <Link to="/admin" className="hover:text-gray-200">
+            <Link to="/add-songs" className="hover:text-gray-200">
               <h2 className="text-xl font-medium underline decoration-transparent hover:decoration-current">Add Songs</h2>
             </Link>
             { user ? (
@@ -52,6 +52,9 @@ export const Layout = ({ children }) => {
           </Link>
           <Link to="/leaderboard" className="hover:text-gray-200 text-xl p-2 text-center">
             Leaderboard
+          </Link>
+          <Link to="/add-songs" className="hover:text-gray-200 text-xl p-2 text-center">
+            Add Songs
           </Link>
           {user ? (
             <div className="flex flex-col items-center p-2">

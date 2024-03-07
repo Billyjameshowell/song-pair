@@ -15,7 +15,7 @@ app song_pair {
       usernameAndPassword: {}
     },
     onAuthFailedRedirectTo: "/login",
-    onAuthSucceededRedirectTo: "/"
+    onAuthSucceededRedirectTo: "/add-songs"
   },
 }
 
@@ -96,7 +96,7 @@ page LeaderboardPage {
   component: import LeaderboardPage from "@src/pages/Leaderboard.jsx",
 }
 
-route AdminDashboardRoute { path: "/admin", to: AdminDashboardPage }
+route AdminDashboardRoute { path: "/add-songs", to: AdminDashboardPage }
 page AdminDashboardPage {
   component: import AdminDashboardPage from "@src/pages/AdminDashboard.jsx",
   authRequired: true
