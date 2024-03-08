@@ -6,6 +6,7 @@ const AdminDashboardPage = () => {
   const [artist, setArtist] = useState('');
   const [albumArt, setAlbumArt] = useState('');
   const [selectedSongIds, setSelectedSongIds] = useState([]);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const addSongFn = useAction(addSong);
   const saveUserSongSelectionsFn = useAction(saveUserSongSelections);
   const { data: songs, error: songsError, isLoading: songsLoading } = useQuery(getAllSongs);
@@ -50,51 +51,60 @@ const AdminDashboardPage = () => {
 
   return (
     <div className='p-4 space-y-8'>
-      <div>
-        <h2 className='text-2xl font-bold mb-4'>Add New Song</h2>
-        <div className='form-control'>
-          <label className='label'>
-            <span className='label-text'>Song title</span>
-          </label>
-          <input
-            type='text'
-            placeholder='Song title'
-            className='input input-bordered w-full mb-4'
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+      <button
+        onClick={() => setIsFormOpen(!isFormOpen)}
+        className='btn btn-primary'
+      >
+        {isFormOpen ? 'Close Form' : 'Add New Song'}
+      </button>
+
+      {isFormOpen && (
+        <div>
+          <h2 className='text-2xl font-bold mb-4'>Add New Song</h2>
+          <div className='form-control'>
+            <label className='label'>
+              <span className='label-text'>Song title</span>
+              <input
+                type='text'
+                placeholder='Song title'
+                className='input input-bordered w-full mb-4'
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </label>
+          </div>
+          <div className='form-control'>
+            <label className='label'>
+              <span className='label-text'>Artist name</span>
+              <input
+                type='text'
+                placeholder='Artist name'
+                className='input input-bordered w-full mb-4'
+                value={artist}
+                onChange={(e) => setArtist(e.target.value)}
+              />
+            </label>
+          </div>
+          <div className='form-control'>
+            <label className='label'>
+              <span className='label-text'>Album Art URL</span>
+              <input
+                type='text'
+                placeholder='Album Art URL'
+                className='input input-bordered w-full mb-4'
+                value={albumArt}
+                onChange={(e) => setAlbumArt(e.target.value)}
+              />
+            </label>
+          </div>
+          <button
+            onClick={handleAddSong}
+            className='btn btn-primary'
+          >
+            Add Song
+          </button>
         </div>
-        <div className='form-control'>
-          <label className='label'>
-            <span className='label-text'>Artist name</span>
-          </label>
-          <input
-            type='text'
-            placeholder='Artist name'
-            className='input input-bordered w-full mb-4'
-            value={artist}
-            onChange={(e) => setArtist(e.target.value)}
-          />
-        </div>
-        <div className='form-control'>
-          <label className='label'>
-            <span className='label-text'>Album Art URL</span>
-          </label>
-          <input
-            type='text'
-            placeholder='Album Art URL'
-            className='input input-bordered w-full mb-4'
-            value={albumArt}
-            onChange={(e) => setAlbumArt(e.target.value)}
-          />
-        </div>
-        <button
-          onClick={handleAddSong}
-          className='btn btn-primary'
-        >
-          Add Song
-        </button>
-      </div>
+      )}
 
       <div>
         <h2 className='text-2xl font-bold mb-4'>Manage Songs</h2>
@@ -107,15 +117,15 @@ const AdminDashboardPage = () => {
               <div className='card-body items-center text-center'>
                 <h2 className='card-title'>{song.title}</h2>
                 <p>{song.artist}</p>
-                <div className='card-actions'>
-                  <label className='cursor-pointer label'>
-                    <span className='label-text'>Select Song</span> 
+                <div className='card-actions flex justify-center'>
+                  <label className='cursor-pointer label flex items-center'>
                     <input 
                       type='checkbox' 
-                      className='checkbox checkbox-primary' 
+                      className='checkbox checkbox-primary mr-2' 
                       checked={selectedSongIds.includes(song.id)} 
                       onChange={() => handleSongSelectionChange(song.id)} 
                     />
+                    <span className='label-text'>Select Song</span>
                   </label>
                 </div>
               </div>
