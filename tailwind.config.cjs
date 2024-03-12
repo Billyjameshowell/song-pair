@@ -1,3 +1,5 @@
+// tailwind.config.js
+
 const { resolveProjectPath } = require('wasp/dev');
 const colors = require('tailwindcss/colors');
 
@@ -9,6 +11,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Change the background color for the entire screen
+        backgroundColor: {
+          'primary': colors.slate[800],
+        },
         primary: {
           50: colors.slate[50],
           100: colors.slate[100],
